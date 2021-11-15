@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
 
+    <!-- Adding Vue -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+
     <!-- importing tailwindcss -->
     <link
       href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css"
@@ -31,305 +34,117 @@
     </style>
   </head>
   <body class="bg-gray-200">
-    <div
-      class="
-        inline-flex
-        w-full
-        p-3
-        px-40
-        bg-white
-        text-gray-900
-        font-serif
-        text-lg
-      "
-    >
-      <h1 class="font-roboto text-primary font-semibold text-xl">Lessons</h1>
-      <button class="ml-auto text-gray-700 hover:text-gray-900 font-sans">
-        <i class="fas fa-shopping-cart"></i>
-        Cart
-      </button>
-    </div>
-    <div class="w-full grid grid-cols-2 gap-10 p-20">
-      <div class="inline-flex">
-        <img
-          src="https://img.freepik.com/free-vector/happy-women-learning-language-online-isolated-flat-vector-illustration-cartoon-female-characters-taking-individual-lessons-through-messenger-education-digital-technology-concept_74855-10088.jpg?size=626&ext=jpg&ga=GA1.2.1250587882.1620345600"
-          alt=""
-          class="w-full h-auto rounded-lg"
-        />
+    <div id="app">
+      <div
+        class="
+          inline-flex
+          w-full
+          p-3
+          px-40
+          bg-white
+          text-gray-900
+          font-serif
+          text-lg
+        "
+      >
+        <h1 class="font-roboto text-primary font-semibold text-xl">Lessons</h1>
+        <button class="ml-auto text-gray-700 hover:text-gray-900 font-sans">
+          <i class="fas fa-shopping-cart"></i>
+          Cart
+        </button>
       </div>
-      <div class="w-full font-roboto py-10">
-        <h1 class="text-left font-bold text-4xl max-w-sm">
-          Find All Your Lessons In One Place
+      <div class="w-full grid grid-cols-2 gap-10 p-20">
+        <div class="inline-flex">
+          <img
+            src="https://img.freepik.com/free-vector/happy-women-learning-language-online-isolated-flat-vector-illustration-cartoon-female-characters-taking-individual-lessons-through-messenger-education-digital-technology-concept_74855-10088.jpg?size=626&ext=jpg&ga=GA1.2.1250587882.1620345600"
+            alt=""
+            class="w-full h-auto rounded-lg"
+          />
+        </div>
+        <div class="w-full font-roboto py-10">
+          <h1 class="text-left font-bold text-4xl max-w-sm">
+            Find All Your Lessons In One Place
+          </h1>
+          <br />
+          <p class="max-w-md">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur
+            perspiciatis animi voluptas corporis, numquam facilis id veritatis,
+            totam maiores dolor necessitatibus voluptatem ea? Officia dolor
+            commodi aliquid aliquam consectetur fugiat?
+          </p>
+        </div>
+      </div>
+      <div class="w-full bg-white p-10">
+        <h1 class="text-center font-roboto font-bold text-3xl">
+          Available Courses
         </h1>
+        <div class="inline-flex w-full">
+          <button class="w-40 border p-2 rounded-md bg-gray-200">
+            Ascending
+            <span class="px-2"></span>
+            <i class="fas fa-arrow-down"></i>
+          </button>
+          <button class="ml-auto w-40 border p-2 rounded-md bg-gray-200">
+            Sort By
+            <span class="px-2"></span>
+            <i class="fas fa-arrow-down"></i>
+          </button>
+        </div>
         <br />
-        <p class="max-w-md">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur
-          perspiciatis animi voluptas corporis, numquam facilis id veritatis,
-          totam maiores dolor necessitatibus voluptatem ea? Officia dolor
-          commodi aliquid aliquam consectetur fugiat?
-        </p>
-      </div>
-    </div>
-    <div class="w-full bg-white p-10">
-      <h1 class="text-center font-roboto font-bold text-3xl">
-        Available Courses
-      </h1>
-      <div class="inline-flex w-full">
-        <button class="w-40 border p-2 rounded-md bg-gray-200">
-          Ascending
-          <span class="px-2"></span>
-          <i class="fas fa-arrow-down"></i>
-        </button>
-        <button class="ml-auto w-40 border p-2 rounded-md bg-gray-200">
-          Sort By
-          <span class="px-2"></span>
-          <i class="fas fa-arrow-down"></i>
-        </button>
-      </div>
-      <br />
-      <br />
-      <div class="grid grid-cols-3 gap-4">
-        <div class="inline-flex w-full border rounded-lg p-3">
-          <img
-            src="https://img.freepik.com/free-vector/calculator-concept-illustration_114360-1239.jpg?size=338&ext=jpg"
-            alt=""
-            class="h-48 w-48"
-          />
-          <div class="p-2">
-            <p class="p-1">
-              <strong>Subject: </strong>
-              Maths
-            </p>
-            <p class="p-1">
-              <strong>Location: </strong>
-              Lab-1-10
-            </p>
-            <p class="p-1">
-              <strong>Price: </strong>
-              $10.00
-            </p>
-            <p class="p-1">
-              <strong>Spaces: </strong>
-              5
-            </p>
-            <br />
-            <button
-              class="
-                w-full
-                rounded-md
-                p-2
-                text-sm
-                font-roboto
-                bg-blue-600
-                text-white
-                hover:bg-blue-700
-              "
-            >
-              Add to Cart
-            </button>
-          </div>
-        </div>
-        <div class="inline-flex w-full border rounded-lg p-3">
-          <img
-            src="https://image.freepik.com/free-vector/online-language-school-courses-flat-illustration-woman-watching-lesson-website-learn-english-foreign-language-online-training-e-learning-communication-foreigners-via-internet_204997-165.jpg"
-            alt=""
-            class="h-48 w-48"
-          />
-          <div class="p-2">
-            <p class="p-1">
-              <strong>Subject: </strong>
-              English
-            </p>
-            <p class="p-1">
-              <strong>Location: </strong>
-              Lab-1-12
-            </p>
-            <p class="p-1">
-              <strong>Price: </strong>
-              $11.50
-            </p>
-            <p class="p-1">
-              <strong>Spaces: </strong>
-              5
-            </p>
-            <br />
-            <button
-              class="
-                w-full
-                rounded-md
-                p-2
-                text-sm
-                font-roboto
-                bg-blue-600
-                text-white
-                hover:bg-blue-700
-              "
-            >
-              Add to Cart
-            </button>
-          </div>
-        </div>
-        <div class="inline-flex w-full border rounded-lg p-3">
-          <img
-            src="https://img.freepik.com/free-vector/calculator-concept-illustration_114360-1239.jpg?size=338&ext=jpg"
-            alt=""
-            class="h-48 w-auto"
-          />
-          <div class="p-2">
-            <p class="p-1">
-              <strong>Subject: </strong>
-              Maths
-            </p>
-            <p class="p-1">
-              <strong>Location: </strong>
-              Lab-1-10
-            </p>
-            <p class="p-1">
-              <strong>Price: </strong>
-              $10.00
-            </p>
-            <p class="p-1">
-              <strong>Spaces: </strong>
-              5
-            </p>
-            <br />
-            <button
-              class="
-                w-full
-                rounded-md
-                p-2
-                text-sm
-                font-roboto
-                bg-blue-600
-                text-white
-                hover:bg-blue-700
-              "
-            >
-              Add to Cart
-            </button>
-          </div>
-        </div>
-        <div class="inline-flex w-full border rounded-lg p-3">
-          <img
-            src="https://img.freepik.com/free-vector/calculator-concept-illustration_114360-1239.jpg?size=338&ext=jpg"
-            alt=""
-            class="h-48 w-auto"
-          />
-          <div class="p-2">
-            <p class="p-1">
-              <strong>Subject: </strong>
-              Maths
-            </p>
-            <p class="p-1">
-              <strong>Location: </strong>
-              Lab-1-10
-            </p>
-            <p class="p-1">
-              <strong>Price: </strong>
-              $10.00
-            </p>
-            <p class="p-1">
-              <strong>Spaces: </strong>
-              5
-            </p>
-            <br />
-            <button
-              class="
-                w-full
-                rounded-md
-                p-2
-                text-sm
-                font-roboto
-                bg-blue-600
-                text-white
-                hover:bg-blue-700
-              "
-            >
-              Add to Cart
-            </button>
-          </div>
-        </div>
-        <div class="inline-flex w-full border rounded-lg p-3">
-          <img
-            src="https://img.freepik.com/free-vector/calculator-concept-illustration_114360-1239.jpg?size=338&ext=jpg"
-            alt=""
-            class="h-48 w-auto"
-          />
-          <div class="p-2">
-            <p class="p-1">
-              <strong>Subject: </strong>
-              Maths
-            </p>
-            <p class="p-1">
-              <strong>Location: </strong>
-              Lab-1-10
-            </p>
-            <p class="p-1">
-              <strong>Price: </strong>
-              $10.00
-            </p>
-            <p class="p-1">
-              <strong>Spaces: </strong>
-              5
-            </p>
-            <br />
-            <button
-              class="
-                w-full
-                rounded-md
-                p-2
-                text-sm
-                font-roboto
-                bg-blue-600
-                text-white
-                hover:bg-blue-700
-              "
-            >
-              Add to Cart
-            </button>
-          </div>
-        </div>
-        <div class="inline-flex w-full border rounded-lg p-3">
-          <img
-            src="https://img.freepik.com/free-vector/calculator-concept-illustration_114360-1239.jpg?size=338&ext=jpg"
-            alt=""
-            class="h-48 w-auto"
-          />
-          <div class="p-2">
-            <p class="p-1">
-              <strong>Subject: </strong>
-              Maths
-            </p>
-            <p class="p-1">
-              <strong>Location: </strong>
-              Lab-1-10
-            </p>
-            <p class="p-1">
-              <strong>Price: </strong>
-              $10.00
-            </p>
-            <p class="p-1">
-              <strong>Spaces: </strong>
-              5
-            </p>
-            <br />
-            <button
-              class="
-                w-full
-                rounded-md
-                p-2
-                text-sm
-                font-roboto
-                bg-blue-600
-                text-white
-                hover:bg-blue-700
-              "
-            >
-              Add to Cart
-            </button>
+        <br />
+        <div class="grid grid-cols-3 gap-4">
+          <div
+            v-for="l in lessons"
+            class="inline-flex w-full border rounded-lg p-3"
+          >
+            <img v-bind:src="l.image" alt="subject" class="h-48 w-48" />
+            <div class="p-2">
+              <p class="p-1">
+                <strong>Subject: </strong>
+                {{ l.subject }}
+              </p>
+              <p class="p-1">
+                <strong>Location: </strong>
+                {{ l.location }}
+              </p>
+              <p class="p-1">
+                <strong>Price: </strong>
+                {{ l.price }}
+              </p>
+              <p class="p-1">
+                <strong>Spaces: </strong>
+                {{ l.spaces }}
+              </p>
+              <br />
+              <button
+                class="
+                  w-full
+                  rounded-md
+                  p-2
+                  text-sm
+                  font-roboto
+                  bg-blue-600
+                  text-white
+                  hover:bg-blue-700
+                "
+              >
+                Add to Cart
+              </button>
+            </div>
           </div>
         </div>
       </div>
     </div>
+
+    <script src="./lessons.js"></script>
+
+    <script>
+      const lessonApp = new Vue({
+        el: "#app",
+        data: {
+          lessons: lessons,
+        },
+      });
+    </script>
   </body>
 </html>
