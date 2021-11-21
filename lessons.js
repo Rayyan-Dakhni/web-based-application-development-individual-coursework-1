@@ -12,7 +12,7 @@ const lessons = [
         subject: 'Maths',
         location: 'Lab-1-03',
         price: 18.00,
-        spaces: 4,
+        spaces: 5,
         image: 'https://img.freepik.com/free-vector/calculator-concept-illustration_114360-1239.jpg?size=338&ext=jpg'
     },
     {

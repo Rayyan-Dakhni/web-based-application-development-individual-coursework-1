@@ -36,6 +36,50 @@
   <body class="bg-gray-200">
     <div id="app">
       <div
+        id="sidebar"
+        class="
+          fixed
+          z-50
+          w-80
+          right-0
+          top-0
+          h-screen
+          bg-gray-50
+          p-5
+          overflow-auto
+          shadow-md
+          transition-all
+          transform
+          translate-x-96
+          duration-500
+          opacity-0
+          invisible
+        "
+      >
+        <div class="inline-flex w-full p-3">
+          <h1 class="font-roboto font-bold text-xl">Cart</h1>
+          <button
+            type="button"
+            v-on:click="hideSidebar"
+            class="ml-auto font-bold"
+          >
+            X
+          </button>
+        </div>
+        <hr />
+        <br />
+        <div v-for="c in cart" class="inline-flex w-full py-2">
+          <img v-bind:src="c.image" class="w-28 h-28 rounded-md" alt="" />
+          <div class="pl-4 py-2 w-full">
+            <p><strong>Subject:</strong> {{ c.subject }}</p>
+            <p class="pb-3"><strong>Quantity:</strong> {{ c.quantity }}</p>
+            <button class="bg-red-500 w-full rounded-md text-white p-1">
+              <i class="fas fa-trash-alt"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div
         class="
           fixed
           z-40
@@ -50,7 +94,10 @@
         "
       >
         <h1 class="font-roboto text-primary font-semibold text-xl">Lessons</h1>
-        <button class="ml-auto text-gray-700 hover:text-gray-900 font-sans">
+        <button
+          v-on:click="showSidebar"
+          class="ml-auto text-gray-700 hover:text-gray-900 font-sans"
+        >
           <i class="fas fa-shopping-cart"></i>
           Cart
         </button>
@@ -257,6 +304,18 @@
           cart: [],
         },
         methods: {
+          showSidebar: function () {
+            const sidebar = document.getElementById("sidebar");
+            sidebar.style.visibility = "visible";
+            sidebar.style.opacity = 1;
+            sidebar.style.transform = "translateX(0)";
+          },
+          hideSidebar: function () {
+            const sidebar = document.getElementById("sidebar");
+            sidebar.style.visibility = "invisible";
+            sidebar.style.opacity = 0;
+            sidebar.style.transform = "translateX(20rem)";
+          },
           addToCart: function (lesson) {
             if (lesson.spaces > 0) {
               console.log(this.lessons.indexOf(lesson));
@@ -278,6 +337,8 @@
               } else {
                 this.cart.push({
                   id: lesson.id,
+                  subject: lesson.subject,
+                  image: lesson.image,
                   quantity: 1,
                 });
               }
@@ -286,27 +347,6 @@
               alert("No more items available");
             }
           },
-          // displayProducts() {
-          //   const productDiv = document.getElementById("product");
-          //   productDiv.innerHTML = "";
-          //   for (l in lessons) {
-          //     console.log(l);
-          //     productDiv.innerHTML +=
-          //       '<div class="inline-flex w-full border rounded-lg p-3"><img src="' +
-          //       lessons[l].image +
-          //       '" alt="subject" class="h-48 w-48" /><div class="p-2"><p class="p-1"><strong>Subject: </strong> ' +
-          //       lessons[l].subject +
-          //       '</p><p class="p-1"><strong>Location: </strong>' +
-          //       lessons[l].location +
-          //       '</p><p class="p-1"><strong>Price: </strong> $' +
-          //       lessons[l].price +
-          //       '</p><p class="p-1"><strong>Spaces: </strong>' +
-          //       lessons[l].spaces +
-          //       '</p><br /><button v-if="canAddToCart(l)" v-on:click="' +
-          //       this.addToCart(lessons[l]) +
-          //       '" class="w-full rounded-md p-2 text-sm font-roboto bg-blue-600 text-white hover:bg-blue-700">Add to Cart</button><button v-else disabled class="w-full rounded-md p-2 text-sm font-roboto bg-blue-600 text-white hover:bg-blue-700">Add to Cart</button></div></div>';
-          //   }
-          // },
           canAddToCart(lesson) {
             if (lesson.spaces > 0) {
               return true;
