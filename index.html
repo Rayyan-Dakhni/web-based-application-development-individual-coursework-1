@@ -68,16 +68,62 @@
         </div>
         <hr />
         <br />
-        <div v-for="c in cart" class="inline-flex w-full py-2">
+        <div v-for="(c, index) in cart" class="inline-flex w-full py-2">
           <img v-bind:src="c.image" class="w-28 h-28 rounded-md" alt="" />
           <div class="pl-4 py-2 w-full">
             <p><strong>Subject:</strong> {{ c.subject }}</p>
             <p class="pb-3"><strong>Quantity:</strong> {{ c.quantity }}</p>
-            <button class="bg-red-500 w-full rounded-md text-white p-1">
+            <button
+              v-on:click="deleteItemFromCart(index)"
+              class="bg-red-500 w-full rounded-md text-white p-1"
+            >
               <i class="fas fa-trash-alt"></i>
             </button>
           </div>
         </div>
+        <div v-if="cartHasItems" class="w-full p-3">
+          <label for="">Name</label>
+          <input
+            type="text"
+            v-model="name"
+            class="p-2 w-full border rounded-md"
+          />
+          <label for="">Phone Number</label>
+          <input
+            type="number"
+            v-model="number"
+            class="p-2 w-full border rounded-md"
+          />
+          <br />
+          <br />
+          <button
+            v-if="dataValidated"
+            class="
+              bg-blue-500
+              hover:bg-blue-600
+              rounded-md
+              text-white
+              w-full
+              p-2
+            "
+            v-on:click="onSubmitCheckout"
+          >
+            Proceed to Checkout
+          </button>
+          <button
+            v-else
+            disabled
+            class="bg-blue-400 rounded-md text-white w-full p-2"
+          >
+            Proceed to Checkout
+          </button>
+        </div>
+        <!-- <button
+          v-if="cartHasItems"
+          class="bg-blue-500 hover:bg-blue-600 rounded-md text-white w-full p-2"
+        >
+          Proceed to Checkout
+        </button> -->
       </div>
       <div
         class="
@@ -85,6 +131,7 @@
           z-40
           inline-flex
           w-full
+          shadow-md
           p-3
           px-40
           bg-white
@@ -302,8 +349,28 @@
           orderBy: 0,
           sortBy: "",
           cart: [],
+          name: "",
+          number: "",
+          dataValidated: false,
+        },
+        watch: {
+          number: function (val) {
+            let matchPattern = this.name.match(/\d+/g);
+            var phoneno = /^\d{10}$/;
+            if (matchPattern != null) {
+            } else {
+              if (val.match(phoneno)) {
+                this.dataValidated = true;
+              } else {
+                this.dataValidated = false;
+              }
+            }
+          },
         },
         methods: {
+          onSubmitCheckout: function () {
+            alert("Checkout Complete");
+          },
           showSidebar: function () {
             const sidebar = document.getElementById("sidebar");
             sidebar.style.visibility = "visible";
@@ -524,10 +591,20 @@
             // this.displayProducts();
             this.$forceUpdate();
           },
+          deleteItemFromCart: function (index) {
+            this.cart.splice(index, 1);
+          },
         },
         computed: {
           getLessons() {
             return lessons;
+          },
+          cartHasItems() {
+            if (this.cart.length > 0) {
+              return true;
+            } else {
+              return false;
+            }
           },
         },
       });
