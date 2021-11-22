@@ -351,25 +351,39 @@
           cart: [],
           name: "",
           number: "",
+          nameValidated: false,
+          numberValidated: false,
           dataValidated: false,
         },
         watch: {
           number: function (val) {
-            let matchPattern = this.name.match(/\d+/g);
             var phoneno = /^\d{10}$/;
-            if (matchPattern != null) {
+            if (val.match(phoneno)) {
+              this.numberValidated = true;
             } else {
-              if (val.match(phoneno)) {
-                this.dataValidated = true;
-              } else {
-                this.dataValidated = false;
-              }
+              this.numberValidated = false;
             }
+            this.isDataValidated();
+          },
+          name: function (val) {
+            let number = /\d+/g;
+            if (val.match(number)) {
+              this.nameValidated = false;
+              console.log("found number");
+            } else {
+              this.nameValidated = true;
+              console.log("not found number");
+            }
+            this.isDataValidated();
           },
         },
         methods: {
           onSubmitCheckout: function () {
+            this.cart = [];
+            this.name = "";
+            this.number = "";
             alert("Checkout Complete");
+            this.hideSidebar();
           },
           showSidebar: function () {
             const sidebar = document.getElementById("sidebar");
@@ -593,6 +607,18 @@
           },
           deleteItemFromCart: function (index) {
             this.cart.splice(index, 1);
+          },
+          isDataValidated() {
+            console.log("fired");
+            if (this.numberValidated && this.nameValidated) {
+              this.dataValidated = true;
+              console.log("data validated");
+            } else {
+              this.dataValidated = false;
+              console.log("data not validated");
+              console.log(this.numberValidated);
+              console.log(this.nameValidated);
+            }
           },
         },
         computed: {
