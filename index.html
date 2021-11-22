@@ -118,12 +118,6 @@
             Proceed to Checkout
           </button>
         </div>
-        <!-- <button
-          v-if="cartHasItems"
-          class="bg-blue-500 hover:bg-blue-600 rounded-md text-white w-full p-2"
-        >
-          Proceed to Checkout
-        </button> -->
       </div>
       <div
         class="
@@ -275,6 +269,13 @@
         </div>
         <br />
         <br />
+        <div class="w-full text-center">
+          <input
+            type="search"
+            placeholder="Search..."
+            class="w-96 p-2 px-5 rounded-md border"
+          />
+        </div>
         <br />
         <br />
         <div id="product" class="grid grid-cols-3 gap-4">
@@ -285,9 +286,8 @@
           >
             <img v-bind:src="l.image" alt="subject" class="h-48 w-48" />
             <div class="p-2">
-              <p class="p-1">
-                <strong>Subject: </strong>
-                {{ l.subject }}
+              <p class="p-1 text-center">
+                <strong>{{ l.subject }}</strong>
               </p>
               <p class="p-1">
                 <strong>Location: </strong>
