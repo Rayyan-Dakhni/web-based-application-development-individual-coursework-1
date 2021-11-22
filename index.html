@@ -606,7 +606,20 @@
             this.$forceUpdate();
           },
           deleteItemFromCart: function (index) {
+            const lessonData = this.cart[index];
+            console.log(lessonData);
             this.cart.splice(index, 1);
+            for (l in this.lessons) {
+              if (this.lessons[l].id == lessonData.id) {
+                console.log("found");
+                this.lessons[l].spaces += lessonData.quantity;
+              }
+            }
+            // for ((l, i) in this.lessons) {
+            //   if (l.id == lessonData.id) {
+            //     console.log(this.lessons[i].spaces);
+            //   }
+            // }
           },
           isDataValidated() {
             console.log("fired");
