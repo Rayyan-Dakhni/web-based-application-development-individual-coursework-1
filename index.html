@@ -136,8 +136,17 @@
       >
         <h1 class="font-roboto text-primary font-semibold text-xl">Lessons</h1>
         <button
+          v-if="cartHasItems"
           v-on:click="showSidebar"
           class="ml-auto text-gray-700 hover:text-gray-900 font-sans"
+        >
+          <i class="fas fa-shopping-cart"></i>
+          Cart
+        </button>
+        <button
+          v-else="cartHasItems"
+          class="ml-auto text-gray-500 font-sans"
+          disabled
         >
           <i class="fas fa-shopping-cart"></i>
           Cart
@@ -274,12 +283,71 @@
             type="search"
             placeholder="Search..."
             class="w-96 p-2 px-5 rounded-md border"
+            v-model="search"
           />
         </div>
         <br />
         <br />
-        <div id="product" class="grid grid-cols-3 gap-4">
+        <div class="grid grid-cols-3 gap-4">
           <div
+            v-if="searchLessonsHasLessons"
+            v-for="(l, index) in searchLessons"
+            :key="l.id"
+            class="inline-flex w-full border rounded-lg p-3"
+          >
+            <img v-bind:src="l.image" alt="subject" class="h-48 w-48" />
+            <div class="p-2">
+              <p class="p-1 text-center">
+                <strong>{{ l.subject }}</strong>
+              </p>
+              <p class="p-1">
+                <strong>Location: </strong>
+                {{ l.location }}
+              </p>
+              <p class="p-1">
+                <strong>Price: </strong>
+                ${{ l.price }}
+              </p>
+              <p class="p-1">
+                <strong>Spaces: </strong>
+                {{ l.spaces }}
+              </p>
+              <br />
+              <button
+                v-if="canAddToCart(l)"
+                class="
+                  w-full
+                  rounded-md
+                  p-2
+                  text-sm
+                  font-roboto
+                  bg-blue-600
+                  text-white
+                  hover:bg-blue-700
+                "
+                v-on:click="addToCart(l)"
+              >
+                Add to Cart
+              </button>
+              <button
+                v-else
+                disabled
+                class="
+                  w-full
+                  rounded-md
+                  p-2
+                  text-sm
+                  font-roboto
+                  bg-blue-500
+                  text-white
+                "
+              >
+                Add to Cart
+              </button>
+            </div>
+          </div>
+          <div
+            v-if="searchLessonsDoesNotHaveLessons"
             v-for="(l, index) in getLessons"
             :key="l.id"
             class="inline-flex w-full border rounded-lg p-3"
@@ -354,8 +422,26 @@
           nameValidated: false,
           numberValidated: false,
           dataValidated: false,
+          search: "",
+          searchLessons: [],
         },
         watch: {
+          search: function (val) {
+            this.searchLessons = [];
+            if (val == "") {
+              this.searchLessons = [];
+            } else {
+              for (l in this.lessons) {
+                if (
+                  this.lessons[l].subject.includes(val) ||
+                  this.lessons[l].location.includes(val)
+                ) {
+                  this.searchLessons.push(lessons[l]);
+                }
+              }
+            }
+            console.log(this.searchLessons);
+          },
           number: function (val) {
             var phoneno = /^\d{10}$/;
             if (val.match(phoneno)) {
@@ -643,6 +729,18 @@
               return true;
             } else {
               return false;
+            }
+          },
+          searchLessonsHasLessons() {
+            if (this.searchLessons.length > 0) {
+              return true;
+            } else {
+              return false;
+            }
+          },
+          searchLessonsDoesNotHaveLessons() {
+            if (this.searchLessons.length == 0) {
+              return true;
             }
           },
         },
