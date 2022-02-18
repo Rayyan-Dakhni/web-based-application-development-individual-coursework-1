@@ -1,0 +1,8 @@
+{
+    "name": "My Individual Coursework PWA",
+    "short_name": "Individual Coursework",
+    "description": "my online individual coursework",
+    "icons": [],
+    "start_url": "index.html",
+    "display": "fullscreen"
+}

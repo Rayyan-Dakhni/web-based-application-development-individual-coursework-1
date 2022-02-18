@@ -1,43 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
 
-    <!-- Adding Vue -->
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
 
-    <!-- importing tailwindcss -->
-    <link
-      href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css"
-      rel="stylesheet"
-    />
-    <!-- importing font awesome -->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
-    />
-    <!-- importing fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap"
-      rel="stylesheet"
-    />
+  <link rel="manifest" href="./manifest.json">
+  </link>
 
-    <style>
-      .font-roboto {
-        font-family: "Roboto", sans-serif;
-      }
-    </style>
-  </head>
-  <body class="bg-gray-200">
-    <div id="app">
-      <div
-        id="sidebar"
-        class="
+  <!-- Adding Vue -->
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+
+  <!-- importing tailwindcss -->
+  <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet" />
+  <!-- importing font awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" />
+  <!-- importing fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <script>
+    if ('serviceWorker' in navigator) { 
+      navigator.serviceWorker.register('service-worker.js'); 
+    };
+  </script>
+
+  <style>
+    .font-roboto {
+      font-family: "Roboto", sans-serif;
+    }
+  </style>
+</head>
+
+<body class="bg-gray-200">
+  <div id="app">
+    <div id="sidebar" class="
           fixed
           z-50
           w-80
@@ -54,73 +54,48 @@
           duration-500
           opacity-0
           invisible
-        "
-      >
-        <div class="inline-flex w-full p-3">
-          <h1 class="font-roboto font-bold text-xl">Cart</h1>
-          <button
-            type="button"
-            v-on:click="hideSidebar"
-            class="ml-auto font-bold"
-          >
-            X
+        ">
+      <div class="inline-flex w-full p-3">
+        <h1 class="font-roboto font-bold text-xl">Cart</h1>
+        <button type="button" v-on:click="hideSidebar" class="ml-auto font-bold">
+          X
+        </button>
+      </div>
+      <hr />
+      <br />
+      <div v-for="(c, index) in cart" class="inline-flex w-full py-2">
+        <img v-bind:src="c.image" class="w-28 h-28 rounded-md" alt="" />
+        <div class="pl-4 py-2 w-full">
+          <p><strong>Subject:</strong> {{ c.subject }}</p>
+          <p class="pb-3"><strong>Quantity:</strong> {{ c.quantity }}</p>
+          <button v-on:click="deleteItemFromCart(index)" class="bg-red-500 w-full rounded-md text-white p-1">
+            <i class="fas fa-trash-alt"></i>
           </button>
         </div>
-        <hr />
+      </div>
+      <div v-if="cartHasItems" class="w-full p-3">
+        <label for="">Name</label>
+        <input type="text" v-model="name" class="p-2 w-full border rounded-md" />
+        <label for="">Phone Number</label>
+        <input type="number" v-model="number" class="p-2 w-full border rounded-md" />
         <br />
-        <div v-for="(c, index) in cart" class="inline-flex w-full py-2">
-          <img v-bind:src="c.image" class="w-28 h-28 rounded-md" alt="" />
-          <div class="pl-4 py-2 w-full">
-            <p><strong>Subject:</strong> {{ c.subject }}</p>
-            <p class="pb-3"><strong>Quantity:</strong> {{ c.quantity }}</p>
-            <button
-              v-on:click="deleteItemFromCart(index)"
-              class="bg-red-500 w-full rounded-md text-white p-1"
-            >
-              <i class="fas fa-trash-alt"></i>
-            </button>
-          </div>
-        </div>
-        <div v-if="cartHasItems" class="w-full p-3">
-          <label for="">Name</label>
-          <input
-            type="text"
-            v-model="name"
-            class="p-2 w-full border rounded-md"
-          />
-          <label for="">Phone Number</label>
-          <input
-            type="number"
-            v-model="number"
-            class="p-2 w-full border rounded-md"
-          />
-          <br />
-          <br />
-          <button
-            v-if="dataValidated"
-            class="
+        <br />
+        <button v-if="dataValidated" class="
               bg-blue-500
               hover:bg-blue-600
               rounded-md
               text-white
               w-full
               p-2
-            "
-            v-on:click="onSubmitCheckout"
-          >
-            Proceed to Checkout
-          </button>
-          <button
-            v-else
-            disabled
-            class="bg-blue-400 rounded-md text-white w-full p-2"
-          >
-            Proceed to Checkout
-          </button>
-        </div>
+            " v-on:click="onSubmitCheckout">
+          Proceed to Checkout
+        </button>
+        <button v-else disabled class="bg-blue-400 rounded-md text-white w-full p-2">
+          Proceed to Checkout
+        </button>
       </div>
-      <div
-        class="
+    </div>
+    <div class="
           fixed
           z-40
           inline-flex
@@ -132,61 +107,44 @@
           text-gray-900
           font-serif
           text-lg
-        "
-      >
-        <h1 class="font-roboto text-primary font-semibold text-xl">Lessons</h1>
-        <button
-          v-if="cartHasItems"
-          v-on:click="showSidebar"
-          class="ml-auto text-gray-700 hover:text-gray-900 font-sans"
-        >
-          <i class="fas fa-shopping-cart"></i>
-          Cart
-        </button>
-        <button
-          v-else="cartHasItems"
-          class="ml-auto text-gray-500 font-sans"
-          disabled
-        >
-          <i class="fas fa-shopping-cart"></i>
-          Cart
-        </button>
+        ">
+      <h1 class="font-roboto text-primary font-semibold text-xl">Lessons</h1>
+      <button v-if="cartHasItems" v-on:click="showSidebar" class="ml-auto text-gray-700 hover:text-gray-900 font-sans">
+        <i class="fas fa-shopping-cart"></i>
+        Cart
+      </button>
+      <button v-else="cartHasItems" class="ml-auto text-gray-500 font-sans" disabled>
+        <i class="fas fa-shopping-cart"></i>
+        Cart
+      </button>
+    </div>
+    <div class="w-full grid grid-cols-2 gap-10 p-20 pt-32">
+      <div class="inline-flex">
+        <img src="images/bg.jpeg" alt="" class="w-full h-auto rounded-lg" />
       </div>
-      <div class="w-full grid grid-cols-2 gap-10 p-20 pt-32">
-        <div class="inline-flex">
-          <img
-            src="https://img.freepik.com/free-vector/happy-women-learning-language-online-isolated-flat-vector-illustration-cartoon-female-characters-taking-individual-lessons-through-messenger-education-digital-technology-concept_74855-10088.jpg?size=626&ext=jpg&ga=GA1.2.1250587882.1620345600"
-            alt=""
-            class="w-full h-auto rounded-lg"
-          />
-        </div>
-        <div class="w-full font-roboto py-10">
-          <h1 class="text-left font-bold text-4xl max-w-sm">
-            Find All Your Lessons In One Place
-          </h1>
-          <br />
-          <p class="max-w-md">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur
-            perspiciatis animi voluptas corporis, numquam facilis id veritatis,
-            totam maiores dolor necessitatibus voluptatem ea? Officia dolor
-            commodi aliquid aliquam consectetur fugiat?
-          </p>
-        </div>
-      </div>
-      <div class="w-full bg-white p-10">
-        <h1 class="text-center font-roboto font-bold text-3xl">
-          Available Courses
+      <div class="w-full font-roboto py-10">
+        <h1 class="text-left font-bold text-4xl max-w-sm">
+          Find All Your Lessons In One Place
         </h1>
-        <div class="inline-flex w-full">
-          <button
-            id="orderByBtn"
-            class="group relative w-40 border p-2 rounded-md bg-gray-200"
-          >
-            Order By
-            <span class="px-2"></span>
-            <i class="fas fa-arrow-down"></i>
-            <div
-              class="
+        <br />
+        <p class="max-w-md">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur
+          perspiciatis animi voluptas corporis, numquam facilis id veritatis,
+          totam maiores dolor necessitatibus voluptatem ea? Officia dolor
+          commodi aliquid aliquam consectetur fugiat?
+        </p>
+      </div>
+    </div>
+    <div class="w-full bg-white p-10">
+      <h1 class="text-center font-roboto font-bold text-3xl">
+        Available Courses
+      </h1>
+      <div class="inline-flex w-full">
+        <button id="orderByBtn" class="group relative w-40 border p-2 rounded-md bg-gray-200">
+          Order By
+          <span class="px-2"></span>
+          <i class="fas fa-arrow-down"></i>
+          <div class="
                 absolute
                 z-10
                 w-full
@@ -200,25 +158,16 @@
                 transition-all
                 opacity-0
                 group-hover:opacity-100
-              "
-            >
-              <p
-                class="bg-white hover:bg-gray-100 p-2"
-                v-on:click="sortAscending"
-              >
-                Ascending
-              </p>
-              <p
-                class="bg-white hover:bg-gray-100 p-2"
-                v-on:click="sortDescending"
-              >
-                Descending
-              </p>
-            </div>
-          </button>
-          <button
-            id="sortByBtn"
-            class="
+              ">
+            <p class="bg-white hover:bg-gray-100 p-2" v-on:click="sortAscending">
+              Ascending
+            </p>
+            <p class="bg-white hover:bg-gray-100 p-2" v-on:click="sortDescending">
+              Descending
+            </p>
+          </div>
+        </button>
+        <button id="sortByBtn" class="
               group
               relative
               ml-auto
@@ -227,13 +176,11 @@
               p-2
               rounded-md
               bg-gray-200
-            "
-          >
-            Sort By
-            <span class="px-2"></span>
-            <i class="fas fa-arrow-down"></i>
-            <div
-              class="
+            ">
+          Sort By
+          <span class="px-2"></span>
+          <i class="fas fa-arrow-down"></i>
+          <div class="
                 absolute
                 z-10
                 w-full
@@ -247,132 +194,51 @@
                 transition-all
                 opacity-0
                 group-hover:opacity-100
-              "
-            >
-              <p
-                class="bg-white hover:bg-gray-100 p-2"
-                v-on:click="sortLessons('subject')"
-              >
-                Subject
-              </p>
-              <p
-                class="bg-white hover:bg-gray-100 p-2"
-                v-on:click="sortLessons('location')"
-              >
-                Location
-              </p>
-              <p
-                class="bg-white hover:bg-gray-100 p-2"
-                v-on:click="sortLessons('price')"
-              >
-                Price
-              </p>
-              <p
-                class="bg-white hover:bg-gray-100 p-2"
-                v-on:click="sortLessons('spaces')"
-              >
-                Availability
-              </p>
-            </div>
-          </button>
-        </div>
-        <br />
-        <br />
-        <div class="w-full text-center">
-          <input
-            type="search"
-            placeholder="Search..."
-            class="w-96 p-2 px-5 rounded-md border"
-            v-model="search"
-          />
-        </div>
-        <br />
-        <br />
-        <div class="grid grid-cols-3 gap-4">
-          <div
-            v-if="searchLessonsHasLessons"
-            v-for="(l, index) in searchLessons"
-            :key="l.id"
-            class="inline-flex w-full border rounded-lg p-3"
-          >
-            <img v-bind:src="l.image" alt="subject" class="h-48 w-48" />
-            <div class="p-2">
-              <p class="p-1 text-center">
-                <strong>{{ l.subject }}</strong>
-              </p>
-              <p class="p-1">
-                <strong>Location: </strong>
-                {{ l.location }}
-              </p>
-              <p class="p-1">
-                <strong>Price: </strong>
-                ${{ l.price }}
-              </p>
-              <p class="p-1">
-                <strong>Spaces: </strong>
-                {{ l.spaces }}
-              </p>
-              <br />
-              <button
-                v-if="canAddToCart(l)"
-                class="
-                  w-full
-                  rounded-md
-                  p-2
-                  text-sm
-                  font-roboto
-                  bg-blue-600
-                  text-white
-                  hover:bg-blue-700
-                "
-                v-on:click="addToCart(l)"
-              >
-                Add to Cart
-              </button>
-              <button
-                v-else
-                disabled
-                class="
-                  w-full
-                  rounded-md
-                  p-2
-                  text-sm
-                  font-roboto
-                  bg-blue-500
-                  text-white
-                "
-              >
-                Add to Cart
-              </button>
-            </div>
+              ">
+            <p class="bg-white hover:bg-gray-100 p-2" v-on:click="sortLessons('subject')">
+              Subject
+            </p>
+            <p class="bg-white hover:bg-gray-100 p-2" v-on:click="sortLessons('location')">
+              Location
+            </p>
+            <p class="bg-white hover:bg-gray-100 p-2" v-on:click="sortLessons('price')">
+              Price
+            </p>
+            <p class="bg-white hover:bg-gray-100 p-2" v-on:click="sortLessons('spaces')">
+              Availability
+            </p>
           </div>
-          <div
-            v-if="searchLessonsDoesNotHaveLessons"
-            v-for="(l, index) in getLessons"
-            :key="l.id"
-            class="inline-flex w-full border rounded-lg p-3"
-          >
-            <img v-bind:src="l.image" alt="subject" class="h-48 w-48" />
-            <div class="p-2">
-              <p class="p-1 text-center">
-                <strong>{{ l.subject }}</strong>
-              </p>
-              <p class="p-1">
-                <strong>Location: </strong>
-                {{ l.location }}
-              </p>
-              <p class="p-1">
-                <strong>Price: </strong>
-                ${{ l.price }}
-              </p>
-              <p class="p-1">
-                <strong>Spaces: </strong>
-                {{ l.spaces }}
-              </p>
-              <br />
-              <button
-                v-if="canAddToCart(l)"
-                class="
+        </button>
+      </div>
+      <br />
+      <br />
+      <div class="w-full text-center">
+        <input type="search" placeholder="Search..." class="w-96 p-2 px-5 rounded-md border" v-model="search" />
+      </div>
+      <br />
+      <br />
+      <div class="grid grid-cols-3 gap-4">
+        <div v-if="searchLessonsHasLessons" v-for="(l, index) in searchLessons" :key="l.id"
+          class="inline-flex w-full border rounded-lg p-3">
+          <img v-bind:src="l.image" alt="subject" class="h-48 w-48" />
+          <div class="p-2">
+            <p class="p-1 text-center">
+              <strong>{{ l.subject }}</strong>
+            </p>
+            <p class="p-1">
+              <strong>Location: </strong>
+              {{ l.location }}
+            </p>
+            <p class="p-1">
+              <strong>Price: </strong>
+              ${{ l.price }}
+            </p>
+            <p class="p-1">
+              <strong>Spaces: </strong>
+              {{ l.spaces }}
+            </p>
+            <br />
+            <button v-if="canAddToCart(l)" class="
                   w-full
                   rounded-md
                   p-2
@@ -381,15 +247,10 @@
                   bg-blue-600
                   text-white
                   hover:bg-blue-700
-                "
-                v-on:click="addToCart(l)"
-              >
-                Add to Cart
-              </button>
-              <button
-                v-else
-                disabled
-                class="
+                " v-on:click="addToCart(l)">
+              Add to Cart
+            </button>
+            <button v-else disabled class="
                   w-full
                   rounded-md
                   p-2
@@ -397,255 +258,179 @@
                   font-roboto
                   bg-blue-500
                   text-white
-                "
-              >
-                Add to Cart
-              </button>
-            </div>
+                ">
+              Add to Cart
+            </button>
+          </div>
+        </div>
+        <div v-if="searchLessonsDoesNotHaveLessons" v-for="(l, index) in getLessons" :key="l.id"
+          class="inline-flex w-full border rounded-lg p-3">
+          <img v-bind:src="l.image" alt="subject" class="h-48 w-48" />
+          <div class="p-2">
+            <p class="p-1 text-center">
+              <strong>{{ l.subject }}</strong>
+            </p>
+            <p class="p-1">
+              <strong>Location: </strong>
+              {{ l.location }}
+            </p>
+            <p class="p-1">
+              <strong>Price: </strong>
+              ${{ l.price }}
+            </p>
+            <p class="p-1">
+              <strong>Spaces: </strong>
+              {{ l.spaces }}
+            </p>
+            <br />
+            <button v-if="canAddToCart(l)" class="
+                  w-full
+                  rounded-md
+                  p-2
+                  text-sm
+                  font-roboto
+                  bg-blue-600
+                  text-white
+                  hover:bg-blue-700
+                " v-on:click="addToCart(l)">
+              Add to Cart
+            </button>
+            <button v-else disabled class="
+                  w-full
+                  rounded-md
+                  p-2
+                  text-sm
+                  font-roboto
+                  bg-blue-500
+                  text-white
+                ">
+              Add to Cart
+            </button>
           </div>
         </div>
       </div>
     </div>
+  </div>
 
-    <script src="./lessons.js"></script>
+  <script src="./lessons.js"></script>
 
-    <script>
-      const lessonApp = new Vue({
-        el: "#app",
-        data: {
-          lessons: lessons,
-          orderBy: 0,
-          sortBy: "",
-          cart: [],
-          name: "",
-          number: "",
-          nameValidated: false,
-          numberValidated: false,
-          dataValidated: false,
-          search: "",
-          searchLessons: [],
-        },
-        watch: {
-          search: function (val) {
+  <script>
+    const lessonApp = new Vue({
+      el: "#app",
+      data: {
+        lessons: lessons,
+        orderBy: 0,
+        sortBy: "",
+        cart: [],
+        name: "",
+        number: "",
+        nameValidated: false,
+        numberValidated: false,
+        dataValidated: false,
+        search: "",
+        searchLessons: [],
+      },
+      watch: {
+        search: function (val) {
+          this.searchLessons = [];
+          if (val == "") {
             this.searchLessons = [];
-            if (val == "") {
-              this.searchLessons = [];
-            } else {
-              for (l in this.lessons) {
-                if (
-                  this.lessons[l].subject.includes(val) ||
-                  this.lessons[l].location.includes(val)
-                ) {
-                  this.searchLessons.push(lessons[l]);
-                }
+          } else {
+            for (l in this.lessons) {
+              if (
+                this.lessons[l].subject.includes(val) ||
+                this.lessons[l].location.includes(val)
+              ) {
+                this.searchLessons.push(lessons[l]);
               }
             }
-            console.log(this.searchLessons);
-          },
-          number: function (val) {
-            var phoneno = /^\d{10}$/;
-            if (val.match(phoneno)) {
-              this.numberValidated = true;
-            } else {
-              this.numberValidated = false;
-            }
-            this.isDataValidated();
-          },
-          name: function (val) {
-            let number = /\d+/g;
-            if (val.match(number)) {
-              this.nameValidated = false;
-              console.log("found number");
-            } else {
-              this.nameValidated = true;
-              console.log("not found number");
-            }
-            this.isDataValidated();
-          },
+          }
+          console.log(this.searchLessons);
         },
-        methods: {
-          onSubmitCheckout: function () {
-            this.cart = [];
-            this.name = "";
-            this.number = "";
-            alert("Checkout Complete");
-            this.hideSidebar();
-          },
-          showSidebar: function () {
-            const sidebar = document.getElementById("sidebar");
-            sidebar.style.visibility = "visible";
-            sidebar.style.opacity = 1;
-            sidebar.style.transform = "translateX(0)";
-          },
-          hideSidebar: function () {
-            const sidebar = document.getElementById("sidebar");
-            sidebar.style.visibility = "invisible";
-            sidebar.style.opacity = 0;
-            sidebar.style.transform = "translateX(20rem)";
-          },
-          addToCart: function (lesson) {
-            if (lesson.spaces > 0) {
-              console.log(this.lessons.indexOf(lesson));
-              var found = false;
-              var index = 0;
-              var counter = 0;
-              for (c in this.cart) {
-                console.log(this.cart[c].id);
-                console.log(lesson.id);
-                if (this.cart[c].id == lesson.id) {
-                  found = true;
-                  index = counter;
-                  console.log("found");
-                }
-                counter++;
+        number: function (val) {
+          var phoneno = /^\d{10}$/;
+          if (val.match(phoneno)) {
+            this.numberValidated = true;
+          } else {
+            this.numberValidated = false;
+          }
+          this.isDataValidated();
+        },
+        name: function (val) {
+          let number = /\d+/g;
+          if (val.match(number)) {
+            this.nameValidated = false;
+            console.log("found number");
+          } else {
+            this.nameValidated = true;
+            console.log("not found number");
+          }
+          this.isDataValidated();
+        },
+      },
+      methods: {
+        onSubmitCheckout: function () {
+          this.cart = [];
+          this.name = "";
+          this.number = "";
+          alert("Checkout Complete");
+          this.hideSidebar();
+        },
+        showSidebar: function () {
+          const sidebar = document.getElementById("sidebar");
+          sidebar.style.visibility = "visible";
+          sidebar.style.opacity = 1;
+          sidebar.style.transform = "translateX(0)";
+        },
+        hideSidebar: function () {
+          const sidebar = document.getElementById("sidebar");
+          sidebar.style.visibility = "invisible";
+          sidebar.style.opacity = 0;
+          sidebar.style.transform = "translateX(20rem)";
+        },
+        addToCart: function (lesson) {
+          if (lesson.spaces > 0) {
+            console.log(this.lessons.indexOf(lesson));
+            var found = false;
+            var index = 0;
+            var counter = 0;
+            for (c in this.cart) {
+              console.log(this.cart[c].id);
+              console.log(lesson.id);
+              if (this.cart[c].id == lesson.id) {
+                found = true;
+                index = counter;
+                console.log("found");
               }
-              if (found) {
-                this.cart[index].quantity += 1;
-              } else {
-                this.cart.push({
-                  id: lesson.id,
-                  subject: lesson.subject,
-                  image: lesson.image,
-                  quantity: 1,
-                });
-              }
-              this.lessons[this.lessons.indexOf(lesson)].spaces -= 1;
+              counter++;
+            }
+            if (found) {
+              this.cart[index].quantity += 1;
             } else {
-              alert("No more items available");
+              this.cart.push({
+                id: lesson.id,
+                subject: lesson.subject,
+                image: lesson.image,
+                quantity: 1,
+              });
             }
-          },
-          canAddToCart(lesson) {
-            if (lesson.spaces > 0) {
-              return true;
-            } else {
-              return false;
-            }
-          },
-          sortAscending: function () {
-            if (this.orderBy == 1) {
-              console.log(this.sortBy);
-              switch (this.sortBy) {
-                case "subject":
-                  lessons.sort(function (a, b) {
-                    let x = a.subject.toLowerCase();
-                    let y = b.subject.toLowerCase();
-                    if (x < y) {
-                      return -1;
-                    }
-                    if (x > y) {
-                      return 1;
-                    }
-                    return 0;
-                  });
-                  break;
-                case "location":
-                  lessons.sort(function (a, b) {
-                    let x = a.location.toLowerCase();
-                    let y = b.location.toLowerCase();
-                    if (x < y) {
-                      return -1;
-                    }
-                    if (x > y) {
-                      return 1;
-                    }
-                    return 0;
-                  });
-                  break;
-                case "price":
-                  lessons.sort(function (a, b) {
-                    return a.price - b.price;
-                  });
-                  break;
-                case "spaces":
-                  lessons.sort(function (a, b) {
-                    return a.spaces - b.spaces;
-                  });
-                  break;
-                default:
-                  lessons.sort(function (a, b) {
-                    let x = a.subject.toLowerCase();
-                    let y = b.subject.toLowerCase();
-                    if (x < y) {
-                      return -1;
-                    }
-                    if (x > y) {
-                      return 1;
-                    }
-                    return 0;
-                  });
-                  console.log("default");
-                  break;
-              }
-              this.orderBy = 0;
-              // this.displayProducts();
-              this.$forceUpdate();
-            }
-          },
-          sortDescending: function () {
-            if (this.orderBy == 0) {
-              switch (this.sortBy) {
-                case "subject":
-                  lessons.sort(function (a, b) {
-                    let x = a.subject.toLowerCase();
-                    let y = b.subject.toLowerCase();
-                    if (x > y) {
-                      return -1;
-                    }
-                    if (x < y) {
-                      return 1;
-                    }
-                    return 0;
-                  });
-                  break;
-                case "location":
-                  lessons.sort(function (a, b) {
-                    let x = a.location.toLowerCase();
-                    let y = b.location.toLowerCase();
-                    if (x > y) {
-                      return -1;
-                    }
-                    if (x < y) {
-                      return 1;
-                    }
-                    return 0;
-                  });
-                  break;
-                case "price":
-                  lessons.sort(function (a, b) {
-                    return b.price - a.price;
-                  });
-                  break;
-                case "spaces":
-                  lessons.sort(function (a, b) {
-                    return b.spaces - a.spaces;
-                  });
-                  break;
-                default:
-                  lessons.sort(function (a, b) {
-                    let x = a.subject.toLowerCase();
-                    let y = b.subject.toLowerCase();
-                    if (x > y) {
-                      return -1;
-                    }
-                    if (x < y) {
-                      return 1;
-                    }
-                    return 0;
-                  });
-                  console.log("default");
-                  break;
-              }
-              this.orderBy = 1;
-              console.log(lessons);
-              // this.displayProducts();
-              this.$forceUpdate();
-              console.log("fired");
-            }
-          },
-          sortLessons: function (sortBy) {
-            switch (sortBy) {
+            this.lessons[this.lessons.indexOf(lesson)].spaces -= 1;
+          } else {
+            alert("No more items available");
+          }
+        },
+        canAddToCart(lesson) {
+          if (lesson.spaces > 0) {
+            return true;
+          } else {
+            return false;
+          }
+        },
+        sortAscending: function () {
+          if (this.orderBy == 1) {
+            console.log(this.sortBy);
+            switch (this.sortBy) {
               case "subject":
-                this.sortBy = "subject";
                 lessons.sort(function (a, b) {
                   let x = a.subject.toLowerCase();
                   let y = b.subject.toLowerCase();
@@ -659,7 +444,6 @@
                 });
                 break;
               case "location":
-                this.sortBy = "location";
                 lessons.sort(function (a, b) {
                   let x = a.location.toLowerCase();
                   let y = b.location.toLowerCase();
@@ -673,78 +457,200 @@
                 });
                 break;
               case "price":
-                this.sortBy = "price";
                 lessons.sort(function (a, b) {
                   return a.price - b.price;
                 });
                 break;
               case "spaces":
-                this.sortBy = "spaces";
                 lessons.sort(function (a, b) {
                   return a.spaces - b.spaces;
                 });
                 break;
               default:
+                lessons.sort(function (a, b) {
+                  let x = a.subject.toLowerCase();
+                  let y = b.subject.toLowerCase();
+                  if (x < y) {
+                    return -1;
+                  }
+                  if (x > y) {
+                    return 1;
+                  }
+                  return 0;
+                });
                 console.log("default");
                 break;
             }
+            this.orderBy = 0;
             // this.displayProducts();
             this.$forceUpdate();
-          },
-          deleteItemFromCart: function (index) {
-            const lessonData = this.cart[index];
-            console.log(lessonData);
-            this.cart.splice(index, 1);
-            for (l in this.lessons) {
-              if (this.lessons[l].id == lessonData.id) {
-                console.log("found");
-                this.lessons[l].spaces += lessonData.quantity;
-              }
+          }
+        },
+        sortDescending: function () {
+          if (this.orderBy == 0) {
+            switch (this.sortBy) {
+              case "subject":
+                lessons.sort(function (a, b) {
+                  let x = a.subject.toLowerCase();
+                  let y = b.subject.toLowerCase();
+                  if (x > y) {
+                    return -1;
+                  }
+                  if (x < y) {
+                    return 1;
+                  }
+                  return 0;
+                });
+                break;
+              case "location":
+                lessons.sort(function (a, b) {
+                  let x = a.location.toLowerCase();
+                  let y = b.location.toLowerCase();
+                  if (x > y) {
+                    return -1;
+                  }
+                  if (x < y) {
+                    return 1;
+                  }
+                  return 0;
+                });
+                break;
+              case "price":
+                lessons.sort(function (a, b) {
+                  return b.price - a.price;
+                });
+                break;
+              case "spaces":
+                lessons.sort(function (a, b) {
+                  return b.spaces - a.spaces;
+                });
+                break;
+              default:
+                lessons.sort(function (a, b) {
+                  let x = a.subject.toLowerCase();
+                  let y = b.subject.toLowerCase();
+                  if (x > y) {
+                    return -1;
+                  }
+                  if (x < y) {
+                    return 1;
+                  }
+                  return 0;
+                });
+                console.log("default");
+                break;
             }
-            // for ((l, i) in this.lessons) {
-            //   if (l.id == lessonData.id) {
-            //     console.log(this.lessons[i].spaces);
-            //   }
-            // }
-          },
-          isDataValidated() {
+            this.orderBy = 1;
+            console.log(lessons);
+            // this.displayProducts();
+            this.$forceUpdate();
             console.log("fired");
-            if (this.numberValidated && this.nameValidated) {
-              this.dataValidated = true;
-              console.log("data validated");
-            } else {
-              this.dataValidated = false;
-              console.log("data not validated");
-              console.log(this.numberValidated);
-              console.log(this.nameValidated);
-            }
-          },
+          }
         },
-        computed: {
-          getLessons() {
-            return lessons;
-          },
-          cartHasItems() {
-            if (this.cart.length > 0) {
-              return true;
-            } else {
-              return false;
-            }
-          },
-          searchLessonsHasLessons() {
-            if (this.searchLessons.length > 0) {
-              return true;
-            } else {
-              return false;
-            }
-          },
-          searchLessonsDoesNotHaveLessons() {
-            if (this.searchLessons.length == 0) {
-              return true;
-            }
-          },
+        sortLessons: function (sortBy) {
+          switch (sortBy) {
+            case "subject":
+              this.sortBy = "subject";
+              lessons.sort(function (a, b) {
+                let x = a.subject.toLowerCase();
+                let y = b.subject.toLowerCase();
+                if (x < y) {
+                  return -1;
+                }
+                if (x > y) {
+                  return 1;
+                }
+                return 0;
+              });
+              break;
+            case "location":
+              this.sortBy = "location";
+              lessons.sort(function (a, b) {
+                let x = a.location.toLowerCase();
+                let y = b.location.toLowerCase();
+                if (x < y) {
+                  return -1;
+                }
+                if (x > y) {
+                  return 1;
+                }
+                return 0;
+              });
+              break;
+            case "price":
+              this.sortBy = "price";
+              lessons.sort(function (a, b) {
+                return a.price - b.price;
+              });
+              break;
+            case "spaces":
+              this.sortBy = "spaces";
+              lessons.sort(function (a, b) {
+                return a.spaces - b.spaces;
+              });
+              break;
+            default:
+              console.log("default");
+              break;
+          }
+          // this.displayProducts();
+          this.$forceUpdate();
         },
-      });
-    </script>
-  </body>
+        deleteItemFromCart: function (index) {
+          const lessonData = this.cart[index];
+          console.log(lessonData);
+          this.cart.splice(index, 1);
+          for (l in this.lessons) {
+            if (this.lessons[l].id == lessonData.id) {
+              console.log("found");
+              this.lessons[l].spaces += lessonData.quantity;
+            }
+          }
+          // for ((l, i) in this.lessons) {
+          //   if (l.id == lessonData.id) {
+          //     console.log(this.lessons[i].spaces);
+          //   }
+          // }
+        },
+        isDataValidated() {
+          console.log("fired");
+          if (this.numberValidated && this.nameValidated) {
+            this.dataValidated = true;
+            console.log("data validated");
+          } else {
+            this.dataValidated = false;
+            console.log("data not validated");
+            console.log(this.numberValidated);
+            console.log(this.nameValidated);
+          }
+        },
+      },
+      computed: {
+        getLessons() {
+          return lessons;
+        },
+        cartHasItems() {
+          if (this.cart.length > 0) {
+            return true;
+          } else {
+            return false;
+          }
+        },
+        searchLessonsHasLessons() {
+          if (this.searchLessons.length > 0) {
+            return true;
+          } else {
+            return false;
+          }
+        },
+        searchLessonsDoesNotHaveLessons() {
+          if (this.searchLessons.length == 0) {
+            return true;
+          }
+        },
+      },
+    });
+  </script>
+</body>
+
 </html>
