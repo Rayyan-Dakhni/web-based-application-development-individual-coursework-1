@@ -4,5 +4,5 @@
     "description": "my online individual coursework",
     "icons": [],
     "start_url": "index.html",
-    "display": "fullscreen"
+    "display": "standalone"
 }
